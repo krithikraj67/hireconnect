@@ -1,10 +1,8 @@
-"use client";
-
 import Image from "next/image";
 import logo from "../images/logo.jpg";
 import Link from "next/link";
 import Icon from "./Icon";
-import { Button } from "../ui/button";
+import LoginButton from "../auth/LoginButton";
 
 function Header() {
   return (
@@ -24,11 +22,8 @@ function Header() {
           <Icon name="Freelancers" href="/freelancers" />
           <Icon name="Bounties" href="/bounties" />
           <Icon name="About Us" href="/aboutus" />
-          <Icon name="Profile" href="/Profile" />
+          <Icon name="Profile" href="/profile" />
         </div>
-        <Button className="bg-shade1 hover:bg-shade2">
-          <Link href="/login">Login</Link>
-        </Button>
       </div>
     </header>
   );

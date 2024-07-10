@@ -1,7 +1,12 @@
+import LoginButton from "@/components/auth/LoginButton";
 import React from "react";
 
 function Home() {
-  return <div>Home</div>;
+  return (
+    <div>
+      <LoginButton />
+    </div>
+  );
 }
 
 export default Home;

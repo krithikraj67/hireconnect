@@ -18,9 +18,11 @@ import { Button } from "../ui/button";
 import { login } from "@/actions/auth";
 import { CardWrapper } from "./CardWrapper";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
+  const route = useRouter();
 
   const form = useForm<z.infer<typeof LoginSchema>>({
     resolver: zodResolver(LoginSchema),
@@ -45,7 +47,7 @@ export const LoginForm = () => {
         if (response.error) {
           console.log(response.error);
         } else {
-          console.log(response.success);
+          route.push("/freelancers");
         }
       });
     });

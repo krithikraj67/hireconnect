@@ -1,4 +1,5 @@
 "use client";
+import MultipleSelector from "../ui/multiselector";
 
 import { CardWrapper } from "./CardWrapper";
 import { useForm } from "react-hook-form";
@@ -17,25 +18,45 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useTransition } from "react";
 import { signup } from "@/actions/auth";
+import { Option } from "@/schemas/multiselector_schema";
+import { useRouter } from "next/navigation";
 
 export const SignupForm = () => {
   const form = useForm<z.infer<typeof SignupSchema>>({
     resolver: zodResolver(SignupSchema),
   });
 
+  const router = useRouter();
+
   var [isPending, startTransition] = useTransition();
 
   const onSubmit = (values: z.infer<typeof SignupSchema>) => {
+    console.log("Signup onSubmit");
     startTransition(() => {
       signup(values).then((response) => {
         if (response.error) {
           console.log(response.error);
         } else {
           console.log(response.success);
+          router.push("/login");
         }
       });
     });
   };
+
+  const OPTIONS: Option[] = [
+    { label: "nextjs", value: "nextjs" },
+    { label: "React", value: "react" },
+    { label: "Remix", value: "remix" },
+    { label: "Vite", value: "vite" },
+    { label: "Nuxt", value: "nuxt" },
+    { label: "Vue", value: "vue" },
+    { label: "Svelte", value: "svelte" },
+    { label: "Angular", value: "angular" },
+    { label: "Ember", value: "ember", disable: true },
+    { label: "Gatsby", value: "gatsby", disable: true },
+    { label: "Astro", value: "astro" },
+  ];
 
   return (
     <CardWrapper headerLabel="Create an account">
@@ -131,6 +152,28 @@ export const SignupForm = () => {
                       value={field.value || ""}
                       placeholder="*******"
                       type="password"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="skills"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Skills</FormLabel>
+                  <FormControl>
+                    <MultipleSelector
+                      {...field}
+                      defaultOptions={OPTIONS}
+                      placeholder="Select skills you have..."
+                      emptyIndicator={
+                        <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                          no results found.
+                        </p>
+                      }
                     />
                   </FormControl>
                   <FormMessage />
